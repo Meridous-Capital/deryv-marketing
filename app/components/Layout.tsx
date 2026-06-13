@@ -21,7 +21,7 @@ function Header() {
           <img src={LOGO} alt="deryv" style={{height:30,width:'auto'}}/>
         </Link>
 
-        <nav style={{display:'flex',alignItems:'center',gap:24,flex:1,justifyContent:'center'}}>
+        <nav className="deryv-desktop-nav" style={{display:'flex',alignItems:'center',gap:24,flex:1,justifyContent:'center'}}>
           {NAV_LINKS.map(l=>(
             <a key={l.href} href={l.href} style={{fontSize:14,fontWeight:500,color:'#6B7280',textDecoration:'none',transition:'color 0.15s'}}
               onMouseEnter={e=>(e.currentTarget.style.color='#111827')}
@@ -31,13 +31,54 @@ function Header() {
           ))}
         </nav>
 
-        <div style={{display:'flex',alignItems:'center',gap:12,flexShrink:0}}>
+        <div className="deryv-desktop-actions" style={{display:'flex',alignItems:'center',gap:12,flexShrink:0}}>
           <a href="/contact" style={{fontSize:14,fontWeight:500,color:'#6B7280',textDecoration:'none'}}>Request Access</a>
           <a href="https://app.deryvOS.com" style={{display:'inline-flex',alignItems:'center',padding:'8px 18px',borderRadius:8,background:'#3ECF8E',color:'#fff',fontWeight:600,fontSize:14,textDecoration:'none'}}>
             Launch App
           </a>
         </div>
+
+        <button
+          className="deryv-menu-btn"
+          aria-label="Toggle menu"
+          onClick={()=>setOpen(o=>!o)}
+          style={{display:'none',background:'none',border:'none',padding:8,cursor:'pointer',flexShrink:0}}
+        >
+          {open ? (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111827" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          ) : (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111827" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+          )}
+        </button>
       </div>
+
+      {open && (
+        <div className="deryv-mobile-menu" style={{borderTop:'1px solid rgba(0,0,0,0.08)',padding:'8px 24px 16px',display:'flex',flexDirection:'column',gap:4}}>
+          {NAV_LINKS.map(l=>(
+            <a key={l.href} href={l.href} onClick={()=>setOpen(false)} style={{fontSize:15,fontWeight:500,color:'#374151',textDecoration:'none',padding:'10px 0'}}>
+              {l.label}
+            </a>
+          ))}
+          <a href="/contact" onClick={()=>setOpen(false)} style={{fontSize:15,fontWeight:500,color:'#374151',textDecoration:'none',padding:'10px 0'}}>Request Access</a>
+          <a href="https://app.deryvOS.com" onClick={()=>setOpen(false)} style={{display:'inline-flex',alignItems:'center',justifyContent:'center',padding:'12px 18px',borderRadius:8,background:'#3ECF8E',color:'#fff',fontWeight:600,fontSize:15,textDecoration:'none',marginTop:8}}>
+            Launch App
+          </a>
+        </div>
+      )}
+
+      <style>{`
+        @media (max-width: 900px) {
+          .deryv-desktop-nav, .deryv-desktop-actions { display: none !important; }
+          .deryv-menu-btn { display: flex !important; align-items: center; justify-content: center; }
+        }
+      `}</style>
     </header>
   );
 }
@@ -46,7 +87,7 @@ function Footer() {
   return (
     <footer style={{borderTop:'1px solid rgba(0,0,0,0.08)',fontFamily:'-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif'}}>
       <div style={{maxWidth:1200,margin:'0 auto',padding:'64px 24px 48px'}}>
-        <div style={{display:'grid',gridTemplateColumns:'2fr 1fr 1fr 1fr',gap:40,marginBottom:48}}>
+        <div className="deryv-footer-grid" style={{display:'grid',gridTemplateColumns:'2fr 1fr 1fr 1fr',gap:40,marginBottom:48}}>
           <div>
             <img src={LOGO} alt="deryv" style={{height:26,width:'auto',marginBottom:12}}/>
             <p style={{fontSize:13,color:'#9CA3AF',maxWidth:260,lineHeight:1.6,margin:0}}>
@@ -84,6 +125,18 @@ function Footer() {
           </div>
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 640px) {
+          .deryv-footer-grid {
+            grid-template-columns: 1fr 1fr !important;
+            gap: 32px !important;
+          }
+          .deryv-footer-grid > div:first-child {
+            grid-column: 1 / -1;
+          }
+        }
+      `}</style>
     </footer>
   );
 }
